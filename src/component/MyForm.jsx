@@ -36,6 +36,8 @@ const useStaticData = (defaultValue, setIsLoading) => {
 
 export default function MyForm() {
     const formRef = useRef(null);
+    const prevData = useRef(null);
+
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState(defaultData);
     const staticData = useStaticData({
@@ -46,7 +48,7 @@ export default function MyForm() {
     const onValueChange = (event) => {
         const target = event.target;
         const value = target.type == 'checkbox' ? target.checked : target.value;
-
+        prevData.current = data;
         setData(state => ({ ...state, [target.name]: value }));
     };
 
@@ -131,6 +133,7 @@ export default function MyForm() {
 
             <pre>{JSON.stringify(data, null, 2)}</pre>
 
+            <pre>{JSON.stringify(prevData, null, 2)}</pre>
         </div>
     );
 }
